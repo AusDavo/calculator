@@ -1,1 +1,1 @@
-The final project of the Odin Project's Foundation Course is to create an on-screen calculator using JavaScript, HTML and CSS.
+For the final project of the Odin Project's Foundation Course, I have created an on-screen calculator using JavaScript, HTML and CSS.

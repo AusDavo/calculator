@@ -14,3 +14,15 @@ numericButtons.forEach(button => {
     calculatorDisplay.textContent += buttonValue;
   });
 });
+
+  // Get the clear button
+const clearButton = document.querySelectorAll(".keys.clear");
+
+// Add click event listeners to the numeric buttons
+clearButton.forEach(button => {
+  button.addEventListener("click", e => {
+    
+    // Reset calculator display to zero
+    calculatorDisplay.textContent = "";
+  });
+});

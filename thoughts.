@@ -1,0 +1,51 @@
+What to show on the calculator display...
+
+INITITALIZATION
+Before anything has been pressed => 0
+    inputCounter = 0;
+    display = 0;
+    functionCounter = 0;
+    functionType = equals
+
+DETECT NUMBER
+As a number is entered => digit by digit
+    if (!inputCounter === 0) {
+        display =+ digit;
+    } else {
+        display = digit;
+        inputCounter =+ 1;
+    }
+
+DETECT FUNCTION OR EQUALS
+No change when function button is pressed
+    if (functionCounter === 0) {
+        let firstNumber = display;
+        inputCounter = 0;
+        functionCounter +1;
+        
+    }
+
+DETECT NUMBER (duplicate from earlier)    
+After function button has been pressed => Next number, digit by digit
+    if (!inputCounter === 0) {
+        display =+ digit;
+    } else {
+        display = digit;
+        inputCounter =+ 1;
+    }
+
+GIVE A RESULT
+After functions are pressed again, or equals => Result
+    if (functionType === equals/addition/multiplication...) {
+    let display = function(firstNumber, display); (and update calculator-display)
+    let firstNumber = display;
+    inputCounter = 0;
+    }
+
+
+--
+INITIALIZATION
+At any time, when C is pressed => 0 (original state)
+    inputCounter = 0;
+    display = 0; (and update calculator-display)
+    functionCounter = 0;

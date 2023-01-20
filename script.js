@@ -41,17 +41,34 @@ const applyDesiredOperation = function(firstNumber, secondNumber, functionType) 
   }
 };
 
+const handleArgumentsDisplay = function () {
+    if (functionCounter === 0) {
+        firstNumber = parseFloat(display);
+        functionCounter += 1;
+    } else {
+        secondNumber = parseFloat(display);
+        display = String(applyDesiredOperation(firstNumber, secondNumber, functionType));
+        if (display.length > 13) {
+            display = display.slice(0, 13);
+        }
+        calculatorDisplay.textContent = display;
+    }
+};
+
 // Add click event listeners to the numeric buttons
 numericButtons.forEach(button => {
   button.addEventListener("click", e => {
     const buttonValue = e.target.textContent;
     // Update the calculator display's textContent
-    if (inputCounter !== 0) {
-        display += buttonValue;
-    } else {
-        firstNumber = parseInt(display);
-        display = buttonValue;
-        inputCounter =+ 1;
+    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
+        if (inputCounter !== 0 || buttonValue === ".") {
+            display += buttonValue;
+            inputCounter =+ 1;
+        } else {
+            firstNumber = parseFloat(display);
+            display = buttonValue;
+            inputCounter =+ 1;
+        }
     }
     calculatorDisplay.textContent = display;
   });
@@ -67,77 +84,39 @@ clearButton.addEventListener('click', function() {
     calculatorDisplay.textContent = display;
 });
 
+
+
 // Add click event listener to the equals button
 equalsButton.addEventListener('click', function() {
-    if (functionCounter === 0) {
-        firstNumber = parseInt(display);
-        functionCounter += 1;
-    } else {
-        secondNumber = parseInt(display);
-        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
-        calculatorDisplay.textContent = display;
-    }
+    handleArgumentsDisplay();
     functionType = "equals";
     inputCounter = 0;
 });
 
 // Add click event listener to the add button
 addButton.addEventListener('click', function() {
-    if (functionCounter === 0) {
-        firstNumber = parseInt(display);
-        inputCounter = 0;
-        functionCounter += 1;
-        functionType = "add";
-    } else {
-        secondNumber = parseInt(display);
-        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
-        calculatorDisplay.textContent = display;
-        functionType = "add";
-    }
+    handleArgumentsDisplay();
+    functionType = "add";
     inputCounter = 0;
 });
 
-// Subtract click event listener to the add button
+// Subtract click event listener to the subtract button
 subtractButton.addEventListener('click', function() {
-    if (functionCounter === 0) {
-        firstNumber = parseInt(display);
-        inputCounter = 0;
-        functionCounter += 1;
-    } else {
-        secondNumber = parseInt(display);
-        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
-        calculatorDisplay.textContent = display;
-    }
+    handleArgumentsDisplay();
     functionType = "subtract";
     inputCounter = 0;
 });
 
-// Multiply click event listener to the add button
+// Multiply click event listener to the multiply button
 multiplyButton.addEventListener('click', function() {
-    if (functionCounter === 0) {
-        firstNumber = parseInt(display);
-        inputCounter = 0;
-        functionCounter += 1;
-    } else {
-        secondNumber = parseInt(display);
-        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
-        calculatorDisplay.textContent = display;
-    }
+    handleArgumentsDisplay();
     functionType = "multiply";
     inputCounter = 0;
 });
 
-// Divide click event listener to the add button
+// Divide click event listener to the divide button
 divideButton.addEventListener('click', function() {
-    if (functionCounter === 0) {
-        firstNumber = parseInt(display);
-        inputCounter = 0;
-        functionCounter += 1;
-    } else {
-        secondNumber = parseInt(display);
-        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
-        calculatorDisplay.textContent = display;
-    }
+    handleArgumentsDisplay();
     functionType = "divide";
     inputCounter = 0;
 });

@@ -1,5 +1,3 @@
-
-
 // Get the calculator display element
 const calculatorDisplay = document.querySelector(".calculator-display span");
 
@@ -7,9 +5,9 @@ const calculatorDisplay = document.querySelector(".calculator-display span");
 const numericButtons = document.querySelectorAll(".keys.numeric");
 const clearButton = document.querySelector(".keys.clear");
 const equalsButton = document.querySelector(".keys.equals");
-const divideButton = document.querySelector(".keys.divide");
-const multiplyButton = document.querySelector(".keys.multiply");
-const subtractButton = document.querySelector(".keys.subtract");
+const divideButton = document.getElementById("key-divide");
+const multiplyButton = document.getElementById("key-multiply");
+const subtractButton = document.getElementById("key-subtract");
 const addButton = document.getElementById("key-add");
 
 // Initialize certain values
@@ -20,6 +18,28 @@ let functionType = "equals";
 calculatorDisplay.textContent = display;
 let firstNumber = 0;
 
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
+const equals = (a, b) => b;
+
+const applyDesiredOperation = function(firstNumber, secondNumber, functionType) {
+  switch (functionType) {
+    case "add":
+      return add(firstNumber, secondNumber);
+    case "subtract":
+      return subtract(firstNumber, secondNumber);
+    case "multiply":
+      return multiply(firstNumber, secondNumber);
+    case "divide":
+      return divide(firstNumber, secondNumber);
+    case "equals":
+      return equals(firstNumber, secondNumber);
+    default:
+      return "Invalid function type.";
+  }
+};
 
 // Add click event listeners to the numeric buttons
 numericButtons.forEach(button => {
@@ -29,8 +49,8 @@ numericButtons.forEach(button => {
     if (inputCounter !== 0) {
         display += buttonValue;
     } else {
+        firstNumber = parseInt(display);
         display = buttonValue;
-        console.log(`Display after entering a single digit: ${display}`);
         inputCounter =+ 1;
     }
     calculatorDisplay.textContent = display;
@@ -45,39 +65,79 @@ clearButton.addEventListener('click', function() {
     display = 0;
     functionCounter = 0;
     calculatorDisplay.textContent = display;
-    console.log("clicked C");
 });
 
 // Add click event listener to the equals button
 equalsButton.addEventListener('click', function() {
     if (functionCounter === 0) {
-        let firstNumber = display;
+        firstNumber = parseInt(display);
         functionCounter += 1;
-        functionType = "equals";
     } else {
-        console.log(`Function counter: ${functionCounter}`);
-        console.log(`Display before doing mathematical function: ${display}`);
-        console.log(`firstNumber before doing mathematical function: ${firstNumber}`);
-        display = parseInt(display) + firstNumber;
-        console.log(`And display before doing mathematical function: ${display}.`);
+        secondNumber = parseInt(display);
+        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
         calculatorDisplay.textContent = display;
-        functionCounter = 0;
-        console.log(`You got an answer of ${display}.`)
     }
+    functionType = "equals";
     inputCounter = 0;
-    console.log("clicked equals");
 });
 
 // Add click event listener to the add button
 addButton.addEventListener('click', function() {
     if (functionCounter === 0) {
-        console.log(`firstNumber early add sequence: ${firstNumber}`);
         firstNumber = parseInt(display);
-        console.log(`firstNumber mid add sequence: ${firstNumber}`);
-        console.log(firstNumber);
         inputCounter = 0;
         functionCounter += 1;
-        functionType = "addition";
+        functionType = "add";
+    } else {
+        secondNumber = parseInt(display);
+        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
+        calculatorDisplay.textContent = display;
+        functionType = "add";
     }
-    console.log("clicked add");
+    inputCounter = 0;
+});
+
+// Subtract click event listener to the add button
+subtractButton.addEventListener('click', function() {
+    if (functionCounter === 0) {
+        firstNumber = parseInt(display);
+        inputCounter = 0;
+        functionCounter += 1;
+    } else {
+        secondNumber = parseInt(display);
+        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
+        calculatorDisplay.textContent = display;
+    }
+    functionType = "subtract";
+    inputCounter = 0;
+});
+
+// Multiply click event listener to the add button
+multiplyButton.addEventListener('click', function() {
+    if (functionCounter === 0) {
+        firstNumber = parseInt(display);
+        inputCounter = 0;
+        functionCounter += 1;
+    } else {
+        secondNumber = parseInt(display);
+        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
+        calculatorDisplay.textContent = display;
+    }
+    functionType = "multiply";
+    inputCounter = 0;
+});
+
+// Divide click event listener to the add button
+divideButton.addEventListener('click', function() {
+    if (functionCounter === 0) {
+        firstNumber = parseInt(display);
+        inputCounter = 0;
+        functionCounter += 1;
+    } else {
+        secondNumber = parseInt(display);
+        display = applyDesiredOperation(firstNumber, secondNumber, functionType);
+        calculatorDisplay.textContent = display;
+    }
+    functionType = "divide";
+    inputCounter = 0;
 });

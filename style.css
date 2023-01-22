@@ -52,26 +52,28 @@ body {
     color: white;
 }
 
-#key-0 {
+/*#key-0 {
     width: 11.4vw;
+}*/
+
+#key-delete {
+    font-size: 2vw;
+    background-color: #e68c43;
 }
 
 #key-equals {
     flex: 1;
+    background-color: #7fe643b6;
 }
 
-.clear {
+.keys.clear {
     background-color: #e95d5e;
 }
 
-.operator {
+.keys.operator {
     background-color: #65c7d0;
 }
 
-.numeric {
+.keys {
     background-color: #808080;
-}
-
-.equals {
-    background-color: #e68c43;
 }

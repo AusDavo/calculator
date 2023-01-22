@@ -9,6 +9,7 @@ const divideButton = document.getElementById("key-divide");
 const multiplyButton = document.getElementById("key-multiply");
 const subtractButton = document.getElementById("key-subtract");
 const addButton = document.getElementById("key-add");
+const deleteButton = document.getElementById("key-delete");
 
 // Initialize certain values
 let inputCounter = 0;
@@ -74,6 +75,12 @@ numericButtons.forEach(button => {
     calculatorDisplay.textContent = display;
     insistNumericInput = 0;
   });
+});
+
+// Add click event listener to the delete button
+deleteButton.addEventListener('click', function() {
+  display = display.slice(0, -1);
+  calculatorDisplay.textContent = display;
 });
 
 // Add click event listener to the clear button

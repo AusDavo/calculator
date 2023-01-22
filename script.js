@@ -17,6 +17,7 @@ let functionCounter = 0;
 let functionType = "equals";
 calculatorDisplay.textContent = display;
 let firstNumber = 0;
+let insistNumericInput = 0;
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
@@ -71,6 +72,7 @@ numericButtons.forEach(button => {
         }
     }
     calculatorDisplay.textContent = display;
+    insistNumericInput = 0;
   });
 });
 
@@ -88,35 +90,49 @@ clearButton.addEventListener('click', function() {
 
 // Add click event listener to the equals button
 equalsButton.addEventListener('click', function() {
+  if (insistNumericInput === 0) {
     handleArgumentsDisplay();
     functionType = "equals";
     inputCounter = 0;
+  }
 });
 
 // Add click event listener to the add button
 addButton.addEventListener('click', function() {
+  if (insistNumericInput === 0) {
     handleArgumentsDisplay();
     functionType = "add";
     inputCounter = 0;
+    insistNumericInput = 1;
+  }
 });
 
 // Subtract click event listener to the subtract button
 subtractButton.addEventListener('click', function() {
+  if (insistNumericInput === 0) {
     handleArgumentsDisplay();
     functionType = "subtract";
     inputCounter = 0;
+    insistNumericInput = 1;
+  }
 });
 
 // Multiply click event listener to the multiply button
 multiplyButton.addEventListener('click', function() {
+  if (insistNumericInput === 0) {
     handleArgumentsDisplay();
     functionType = "multiply";
     inputCounter = 0;
+    insistNumericInput = 1;
+  }
 });
 
 // Divide click event listener to the divide button
 divideButton.addEventListener('click', function() {
+  if (insistNumericInput === 0) {
     handleArgumentsDisplay();
     functionType = "divide";
     inputCounter = 0;
+    insistNumericInput = 1;
+  }
 });

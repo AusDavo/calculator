@@ -143,3 +143,56 @@ divideButton.addEventListener('click', function() {
     insistNumericInput = 1;
   }
 });
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    if (insistNumericInput === 0) {
+      handleArgumentsDisplay();
+      functionType = "equals";
+      inputCounter = 0;
+    }
+  }
+  if (event.code === "Escape") {
+    // Reset calculator display to zero
+    inputCounter = 0;
+    display = 0;
+    functionCounter = 0;
+    calculatorDisplay.textContent = display;
+  }
+  if (/[0-9]|\./.test(event.key)) {
+    // Handle the numeric key press
+    const buttonValue = event.key;
+    // Update the calculator display's textContent
+    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
+        if (inputCounter !== 0 || buttonValue === ".") {
+            display += buttonValue;
+            inputCounter =+ 1;
+        } else {
+            firstNumber = parseFloat(display);
+            display = buttonValue;
+            inputCounter =+ 1;
+        }
+    }
+    calculatorDisplay.textContent = display;
+    insistNumericInput = 0;
+  }
+  if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/") {
+    if (insistNumericInput === 0) {
+      handleArgumentsDisplay();
+      if (event.key === "+") {
+        functionType = "add";
+      }
+      if (event.key === "-") {
+        functionType = "subtract";
+      }
+      if (event.key === "*") {
+        functionType = "multiply";
+      }
+      if (event.key === "/") {
+        functionType = "divide";
+      };
+      inputCounter = 0;
+      insistNumericInput = 1;
+    }
+  }
+});

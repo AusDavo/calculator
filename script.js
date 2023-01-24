@@ -5,27 +5,26 @@ const calculatorDisplay = document.querySelector(".calculator-display span");
 const numericButtons = document.querySelectorAll(".keys.numeric");
 const clearButton = document.querySelector(".keys.clear");
 const equalsButton = document.querySelector(".keys.equals");
-const divideButton = document.getElementById("key-divide");
-const multiplyButton = document.getElementById("key-multiply");
-const subtractButton = document.getElementById("key-subtract");
-const addButton = document.getElementById("key-add");
+const operatorButtons = document.querySelectorAll(".keys.operator");
 const deleteButton = document.getElementById("key-delete");
 
 // Initialize certain values
 let inputCounter = 0;
-let display = 0;
+let display = "0";
 let functionCounter = 0;
 let functionType = "equals";
 calculatorDisplay.textContent = display;
 let firstNumber = 0;
-let insistNumericInput = 0;
+let secondNumber = 0;
 
+// Mathematical functions
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 const equals = (a, b) => b;
 
+// Apply desired operation
 const applyDesiredOperation = function(firstNumber, secondNumber, functionType) {
   switch (functionType) {
     case "add":
@@ -43,6 +42,7 @@ const applyDesiredOperation = function(firstNumber, secondNumber, functionType) 
   }
 };
 
+// Handle the arguments and display the result
 const handleArgumentsDisplay = function () {
     if (functionCounter === 0) {
         firstNumber = parseFloat(display);
@@ -65,93 +65,69 @@ numericButtons.forEach(button => {
     if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
         if (inputCounter !== 0 || buttonValue === ".") {
             display += buttonValue;
-            inputCounter =+ 1;
+            inputCounter += 1;
         } else {
             firstNumber = parseFloat(display);
             display = buttonValue;
-            inputCounter =+ 1;
+            inputCounter += 1;
         }
     }
     calculatorDisplay.textContent = display;
-    insistNumericInput = 0;
   });
 });
 
 // Add click event listener to the delete button
-deleteButton.addEventListener('click', function() {
+deleteButton.addEventListener("click", () => {
   display = display.slice(0, -1);
   calculatorDisplay.textContent = display;
 });
 
 // Add click event listener to the clear button
-clearButton.addEventListener('click', function() {
-    
-    // Reset calculator display to zero
-    inputCounter = 0;
-    display = 0;
-    functionCounter = 0;
-    calculatorDisplay.textContent = display;
+clearButton.addEventListener("click", () => {
+  inputCounter = 0;
+  display = "0";
+  functionCounter = 0;
+  calculatorDisplay.textContent = display;
 });
 
-
+// Add click event listener to the operator buttons
+operatorButtons.forEach(button => {
+  button.addEventListener("click", e => {
+    if (inputCounter !== 0) {
+      handleArgumentsDisplay();
+      functionType = e.target.dataset.functionType;
+      inputCounter = 0;
+    }
+  });
+});
 
 // Add click event listener to the equals button
-equalsButton.addEventListener('click', function() {
-  if (insistNumericInput === 0) {
+equalsButton.addEventListener("click", () => {
+  if (inputCounter !== 0) {
     handleArgumentsDisplay();
     functionType = "equals";
     inputCounter = 0;
   }
 });
 
-// Add click event listener to the add button
-addButton.addEventListener('click', function() {
-  if (insistNumericInput === 0) {
-    handleArgumentsDisplay();
-    functionType = "add";
-    inputCounter = 0;
-    insistNumericInput = 1;
-  }
+document.addEventListener("keydown", (event) => {
+  // Extracting the logic of handling the different key presses into separate functions
+  handleEnterKeyPress(event);
+  handleEscapeKeyPress(event);
+  handleNumericKeyPress(event);
+  handleOperatorKeyPress(event);
+  handleBackspaceKeyPress(event);
 });
 
-// Subtract click event listener to the subtract button
-subtractButton.addEventListener('click', function() {
-  if (insistNumericInput === 0) {
+function handleEnterKeyPress(event) {
+  if (event.key === "Enter" && insistNumericInput === 0) {
     handleArgumentsDisplay();
-    functionType = "subtract";
+    functionType = "equals";
     inputCounter = 0;
-    insistNumericInput = 1;
   }
-});
+};
 
-// Multiply click event listener to the multiply button
-multiplyButton.addEventListener('click', function() {
-  if (insistNumericInput === 0) {
-    handleArgumentsDisplay();
-    functionType = "multiply";
-    inputCounter = 0;
-    insistNumericInput = 1;
-  }
-});
-
-// Divide click event listener to the divide button
-divideButton.addEventListener('click', function() {
-  if (insistNumericInput === 0) {
-    handleArgumentsDisplay();
-    functionType = "divide";
-    inputCounter = 0;
-    insistNumericInput = 1;
-  }
-});
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    if (insistNumericInput === 0) {
-      handleArgumentsDisplay();
-      functionType = "equals";
-      inputCounter = 0;
-    }
-  }
+function handleEscapeKeyPress(event) {
   if (event.code === "Escape") {
     // Reset calculator display to zero
     inputCounter = 0;
@@ -159,40 +135,55 @@ document.addEventListener("keydown", function(event) {
     functionCounter = 0;
     calculatorDisplay.textContent = display;
   }
+};
+
+function handleNumericKeyPress(event) {
   if (/[0-9]|\./.test(event.key)) {
     // Handle the numeric key press
     const buttonValue = event.key;
     // Update the calculator display's textContent
-    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
-        if (inputCounter !== 0 || buttonValue === ".") {
-            display += buttonValue;
-            inputCounter =+ 1;
-        } else {
-            firstNumber = parseFloat(display);
-            display = buttonValue;
-            inputCounter =+ 1;
-        }
+    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
+      if (inputCounter !== 0 || buttonValue === ".") {
+        display += buttonValue;
+        inputCounter += 1;
+      } else {
+        firstNumber = parseFloat(display);
+        display = buttonValue;
+        inputCounter += 1;
+      }
     }
     calculatorDisplay.textContent = display;
     insistNumericInput = 0;
   }
+};
+
+function handleOperatorKeyPress(event) {
   if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/") {
     if (insistNumericInput === 0) {
       handleArgumentsDisplay();
-      if (event.key === "+") {
-        functionType = "add";
+      switch (event.key) {
+        case "+":
+          functionType = "add";
+          break;
+        case "-":
+          functionType = "subtract";
+          break;
+        case "*":
+          functionType = "multiply";
+          break;
+        case "/":
+          functionType = "divide";
+          break;
       }
-      if (event.key === "-") {
-        functionType = "subtract";
-      }
-      if (event.key === "*") {
-        functionType = "multiply";
-      }
-      if (event.key === "/") {
-        functionType = "divide";
-      };
       inputCounter = 0;
       insistNumericInput = 1;
     }
   }
-});
+};
+
+function handleBackspaceKeyPress (event) {
+  if (event.key === "Backspace") {
+    display = display.slice(0, -1);
+      calculatorDisplay.textContent = display;
+  }
+}

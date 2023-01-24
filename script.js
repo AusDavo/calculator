@@ -51,7 +51,11 @@ const handleArgumentsDisplay = function () {
         secondNumber = parseFloat(display);
         display = String(applyDesiredOperation(firstNumber, secondNumber, functionType));
         if (display.length > 13) {
+          if (parseFloat(display) < 1 && parseFloat(display) > -1) {
             display = display.slice(0, 13);
+          } else {
+            display = parseFloat(display).toExponential(2);
+          }
         }
         calculatorDisplay.textContent = display;
     }
@@ -62,16 +66,16 @@ numericButtons.forEach(button => {
   button.addEventListener("click", e => {
     const buttonValue = e.target.textContent;
     // Update the calculator display's textContent
-    if (display.length < 12) {
-      if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
-        if (inputCounter !== 0 || buttonValue === ".") {
+    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
+      if (inputCounter !== 0 || buttonValue === ".") {
+        if (display.length < 13) {
           display += buttonValue;
           inputCounter += 1;
-        } else {
-          firstNumber = parseFloat(display);
-          display = buttonValue;
-          inputCounter += 1;
         }
+      } else {
+        firstNumber = parseFloat(display);
+        display = buttonValue;
+        inputCounter += 1;
       }
     }
     calculatorDisplay.textContent = display;
@@ -109,7 +113,8 @@ operatorButtons.forEach(button => {
 equalsButton.addEventListener("click", () => {
   handleArgumentsDisplay();
   functionType = "equals";
-  inputCounter = 0;
+  functionCounter = 0;
+  inputCounter = 1;
 });
 
 document.addEventListener("keydown", (event) => {
@@ -125,7 +130,8 @@ function handleEnterKeyPress(event) {
   if (event.key === "Enter" && insistNumericInput === 0) {
     handleArgumentsDisplay();
     functionType = "equals";
-    inputCounter = 0;
+    functionCounter = 0;
+    inputCounter = 1;
   }
 };
 
@@ -133,7 +139,7 @@ function handleEscapeKeyPress(event) {
   if (event.code === "Escape") {
     // Reset calculator display to zero
     inputCounter = 0;
-    display = 0;
+    display = "0";
     functionCounter = 0;
     calculatorDisplay.textContent = display;
   }
@@ -143,17 +149,17 @@ function handleNumericKeyPress(event) {
   if (/[0-9]|\./.test(event.key)) {
     // Handle the numeric key press
     const buttonValue = event.key;
-    // Update the calculator display's textContent
-    if (display.length < 12) {
-      if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
-        if (inputCounter !== 0 || buttonValue === ".") {
+    // Update the calculator display's textContent  
+    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
+      if (inputCounter !== 0 || buttonValue === ".") {
+        if (display.length < 13) {
           display += buttonValue;
           inputCounter += 1;
-        } else {
-          firstNumber = parseFloat(display);
-          display = buttonValue;
-          inputCounter += 1;
         }
+      } else {
+        firstNumber = parseFloat(display);
+        display = buttonValue;
+        inputCounter += 1;
       }
     }
     calculatorDisplay.textContent = display;

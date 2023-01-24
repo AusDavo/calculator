@@ -51,11 +51,7 @@ const handleArgumentsDisplay = function () {
         secondNumber = parseFloat(display);
         display = String(applyDesiredOperation(firstNumber, secondNumber, functionType));
         if (display.length > 13) {
-          if (parseFloat(display) < 1 && parseFloat(display) > -1) {
-            display = display.slice(0, 13);
-          } else {
-            display = parseFloat(display).toExponential(2);
-          }
+          display = parseFloat(display).toExponential(2);
         }
         calculatorDisplay.textContent = display;
     }

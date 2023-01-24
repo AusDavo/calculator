@@ -62,16 +62,18 @@ numericButtons.forEach(button => {
   button.addEventListener("click", e => {
     const buttonValue = e.target.textContent;
     // Update the calculator display's textContent
-    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
-        if (inputCounter !== 0 || buttonValue === ".") {
-            display += buttonValue;
-            inputCounter += 1;
-        } else {
-            firstNumber = parseFloat(display);
-            display = buttonValue;
-            inputCounter += 1;
-        }
-    }
+    if (display.length <= 13) {
+      if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
+          if (inputCounter !== 0 || buttonValue === ".") {
+              display += buttonValue;
+              inputCounter += 1;
+          } else {
+              firstNumber = parseFloat(display);
+              display = buttonValue;
+              inputCounter += 1;
+          }
+      }
+    };
     calculatorDisplay.textContent = display;
   });
 });
@@ -142,14 +144,16 @@ function handleNumericKeyPress(event) {
     // Handle the numeric key press
     const buttonValue = event.key;
     // Update the calculator display's textContent
-    if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
-      if (inputCounter !== 0 || buttonValue === ".") {
-        display += buttonValue;
-        inputCounter += 1;
-      } else {
-        firstNumber = parseFloat(display);
-        display = buttonValue;
-        inputCounter += 1;
+    if (display.length < 12) {
+      if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
+        if (inputCounter !== 0 || buttonValue === ".") {
+          display += buttonValue;
+          inputCounter += 1;
+        } else {
+          firstNumber = parseFloat(display);
+          display = buttonValue;
+          inputCounter += 1;
+        }
       }
     }
     calculatorDisplay.textContent = display;

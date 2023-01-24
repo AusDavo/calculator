@@ -62,19 +62,20 @@ numericButtons.forEach(button => {
   button.addEventListener("click", e => {
     const buttonValue = e.target.textContent;
     // Update the calculator display's textContent
-    if (display.length <= 13) {
-      if (buttonValue !== "." || buttonValue === "." && !display.includes(".")){
-          if (inputCounter !== 0 || buttonValue === ".") {
-              display += buttonValue;
-              inputCounter += 1;
-          } else {
-              firstNumber = parseFloat(display);
-              display = buttonValue;
-              inputCounter += 1;
-          }
+    if (display.length < 12) {
+      if (buttonValue !== "." || buttonValue === "." && !display.includes(".")) {
+        if (inputCounter !== 0 || buttonValue === ".") {
+          display += buttonValue;
+          inputCounter += 1;
+        } else {
+          firstNumber = parseFloat(display);
+          display = buttonValue;
+          inputCounter += 1;
+        }
       }
-    };
+    }
     calculatorDisplay.textContent = display;
+    insistNumericInput = 0;
   });
 });
 
@@ -95,21 +96,20 @@ clearButton.addEventListener("click", () => {
 // Add click event listener to the operator buttons
 operatorButtons.forEach(button => {
   button.addEventListener("click", e => {
-    if (inputCounter !== 0) {
+    if (insistNumericInput === 0) {
       handleArgumentsDisplay();
-      functionType = e.target.dataset.functionType;
+      functionType = e.target.dataset.functiontype;
       inputCounter = 0;
+      insistNumericInput = 1;
     }
   });
 });
 
 // Add click event listener to the equals button
 equalsButton.addEventListener("click", () => {
-  if (inputCounter !== 0) {
-    handleArgumentsDisplay();
-    functionType = "equals";
-    inputCounter = 0;
-  }
+  handleArgumentsDisplay();
+  functionType = "equals";
+  inputCounter = 0;
 });
 
 document.addEventListener("keydown", (event) => {

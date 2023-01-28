@@ -11,43 +11,40 @@ body {
 
 .calculator-body {
     background-color: #4d4d4d;
-    padding: 2.6vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     border-radius: 2vw;
+    padding: 15px;
 }
 
 .calculator-display {
     font-size: 14vw;
-    height: 14vw;
+    height: 14%;
     background-color: #d0e6a8;
     color: #4d4d4d;
     flex-basis: 1;
-    width: 100%;
+    width: 90%;
     text-align: right;
     font-family: 'DS-Digital', sans-serif;
-    margin-bottom: 3vh;
-    padding: 0.5vw 0vw;
-    padding-right: 1vw;
+    margin-bottom: 25px;
     border-radius: 1vw;
 }
 
 .container-keys {
     display: flex;
     flex-wrap: wrap;
-    
-    width: 90vw;
-    height: 70vh;
-    padding-bottom: 5vw;
+    width: 100%;
+    height: 80%;
+    padding-bottom: 25px;
 }
 
 .keys {
     font-size: 10vw;
     border-radius: 1vw;
-    width: 20vw;
-    margin: 1.2vw;
+    width: 20%;
+    margin: 2.5%;
     height: auto;
     color: white;
 }
